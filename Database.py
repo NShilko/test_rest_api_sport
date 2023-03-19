@@ -1,6 +1,8 @@
 import psycopg2
 import os
 from dotenv import load_dotenv
+from fastapi import HTTPException
+from main import Pereval
 
 
 class MyDatabase:
@@ -62,6 +64,14 @@ class MyDatabase:
         with self.conn.cursor() as cur:
             cur.execute("SELECT * FROM pereval_added WHERE id = %s", (id,))
             return cur.fetchone()
+
+    def get_user_perevals(self, email: str):
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT * FROM pereval_added WHERE user_email=%s", (email,))
+            rows = cur.fetchall()
+            if rows:
+                return [rows]
+            return None
 
 
     def close_connection(self):
