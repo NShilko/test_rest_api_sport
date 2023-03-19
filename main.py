@@ -34,3 +34,12 @@ async def submit_data(pereval: Pereval):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/submitData/{id}")
+async def get_pereval(id: int):
+    pereval = db.get_pereval_by_id(id)
+    if pereval is None:
+        return {"Ошибка": f"Превелов с id [ {id} ] - не наййдено"}
+    return pereval
+

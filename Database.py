@@ -58,6 +58,12 @@ class MyDatabase:
             ))
             self.conn.commit()
 
+    def get_pereval_by_id(self, id: int):
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT * FROM pereval_added WHERE id = %s", (id,))
+            return cur.fetchone()
+
+
     def close_connection(self):
         self.conn.close(())
 
