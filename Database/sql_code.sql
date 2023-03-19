@@ -15,6 +15,10 @@ CREATE SEQUENCE IF NOT EXISTS spr_activities_id_seq;
 CREATE TABLE "public"."users" (
 "email" text NOT NULL,
 "password" text NOT NULL,
+"first_name" varchar(50),
+"last_name" varchar(50),
+"addon_name" varchar(50),
+"phone" varchar(15),
 PRIMARY KEY ("email")
 );
 
