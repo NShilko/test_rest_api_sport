@@ -2,13 +2,13 @@ import psycopg2
 import os
 from dotenv import load_dotenv
 from fastapi import HTTPException
-from main import Pereval
+from src.Models import Pereval
 
 
 class MyDatabase:
     def __init__(self):
         # Загрузка переменных окружения
-        load_dotenv('main.env')
+        load_dotenv('src/env/main.env')
         self.db_host = os.environ.get('FSTR_DB_HOST')
         self.db_port = os.environ.get('FSTR_DB_PORT')
         self.db_login = os.environ.get('FSTR_DB_LOGIN')
@@ -63,9 +63,13 @@ class MyDatabase:
     def get_pereval_by_id(self, id: int):
         with self.conn.cursor() as cur:
             cur.execute("SELECT * FROM pereval_added WHERE id = %s", (id,))
-            return cur.fetchone()
+            result = cur.fetchone()
+            if result is None:
+                return None
+            columns = [desc[0] for desc in cur.description]
+            return {columns[i]: result[i] for i in range(len(columns))}
 
-    def get_user_perevals(self, email: str):
+    def get_user_perevals(self, email: str) -> list:
         with self.conn.cursor() as cur:
             cur.execute("SELECT * FROM pereval_added WHERE user_email=%s", (email,))
             rows = cur.fetchall()
@@ -73,6 +77,26 @@ class MyDatabase:
                 return [rows]
             return None
 
+    def update_pereval(self, id: int, data: dict) -> tuple:
+        query = """
+                UPDATE pereval_added 
+                SET {} 
+                WHERE id=%s AND status='new'
+            """
+
+        # get keys from fields and convert it for SET
+        placeholders = ", ".join([f"{key}=%s" for key in data.keys()])
+        # replace SET {} to SET keys
+        query = query.format(placeholders)
+
+        with self.conn:
+            try:
+                with self.conn.cursor() as cur:
+                    cur.execute(query, (*data.values(), id))
+                    return (1, "Запись успешно обновлена!")
+            except Exception as e:
+                self.conn.rollback()
+                raise HTTPException(status_code=400, detail=f"Не удалось обновить запись: {e}")
 
     def close_connection(self):
         self.conn.close(())
