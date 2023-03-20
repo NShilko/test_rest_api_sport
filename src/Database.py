@@ -7,7 +7,7 @@ from src.Models import Pereval
 
 class MyDatabase:
     def __init__(self):
-        # Загрузка переменных окружения
+        # Load environment variables from.env file
         load_dotenv('src/env/main.env')
         self.db_host = os.environ.get('FSTR_DB_HOST')
         self.db_port = os.environ.get('FSTR_DB_PORT')
@@ -22,6 +22,7 @@ class MyDatabase:
             database='postgres'
         )
 
+        # check server status
         if self.conn.status == psycopg2.extensions.STATUS_READY:
             print("Подключение к БД установлено!")
         else:
@@ -56,7 +57,7 @@ class MyDatabase:
                 data['level_spring'],
                 data['connect'],
                 data['add_time'],
-                data['coord_id']
+                data['coord_id'],
             ))
             self.conn.commit()
 
@@ -74,7 +75,8 @@ class MyDatabase:
             cur.execute("SELECT * FROM pereval_added WHERE user_email=%s", (email,))
             rows = cur.fetchall()
             if rows:
-                return [rows]
+                columns = [col[0] for col in cur.description]
+                return [dict(zip(columns, row)) for row in rows]
             return None
 
     def update_pereval(self, id: int, data: dict) -> tuple:

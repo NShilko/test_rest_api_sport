@@ -44,13 +44,13 @@ async def submit_data(pereval: Pereval) -> dict:
 async def get_pereval(id: int) -> dict:
     pereval = db.get_pereval_by_id(id)
     if pereval is None:
-        return {"Ошибка": f"Превелов с id [ {id} ] - не наййдено"}
+        return {"Ошибка": f"Превелов с id [ {id} ] - не найдено"}
     return pereval
 
 
 # Get All Perevals by User_email
 @app.get("/submitData/")
-async def get_user_perevals(user_email: str) -> list:
+async def get_user_perevals(user_email: str):
     user_perevals = db.get_user_perevals(user_email)
     if not user_perevals:
         raise HTTPException(status_code=404, detail="Пользователь не публиковал данных о перевалах")
