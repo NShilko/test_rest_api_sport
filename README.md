@@ -51,14 +51,16 @@ Adds information about a mountain pass.
   "level_spring": 4,
   "connect": "connect",
   "add_time": "12.12.2022",
-  "coord_id": 2
+  "coord_id": 1
 }
 ```
 *Example response:*
 ```json
 {
-  "status": "success",
-  "message": "Информация о превале успешно добавлена!",
+  "status": {
+    "state": 1,
+    "message": "Данные успешно добавлены в базу данных"
+  },
   "data": {
     "user_email": "user1@test.ru",
     "beauty_title": "Большой перевал",
