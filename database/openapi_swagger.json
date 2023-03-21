@@ -1,0 +1,279 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Test REST API for sports data",
+    "description": "Project assignment for implementing a REST API for working with data from a sports application",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/submitData": {
+      "post": {
+        "summary": "Submit Data",
+        "operationId": "submit_data_submitData_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pereval"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Submit Data Submitdata Post",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submitData/{id}": {
+      "get": {
+        "summary": "Get Pereval",
+        "operationId": "get_pereval_submitData__id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Get Pereval Submitdata  Id  Get",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Pereval",
+        "operationId": "update_pereval_submitData__id__patch",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "integer"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Data",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Update Pereval Submitdata  Id  Patch",
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/submitData/": {
+      "get": {
+        "summary": "Get User Perevals",
+        "operationId": "get_user_perevals_submitData__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "User Email",
+              "type": "string"
+            },
+            "name": "user_email",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "Pereval": {
+        "title": "Pereval",
+        "required": [
+          "user_email",
+          "coord_id"
+        ],
+        "type": "object",
+        "properties": {
+          "user_email": {
+            "title": "User Email",
+            "type": "string"
+          },
+          "beauty_title": {
+            "title": "Beauty Title",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "other_titles": {
+            "title": "Other Titles",
+            "type": "string"
+          },
+          "level_summer": {
+            "title": "Level Summer",
+            "type": "integer"
+          },
+          "level_autumn": {
+            "title": "Level Autumn",
+            "type": "integer"
+          },
+          "level_winter": {
+            "title": "Level Winter",
+            "type": "integer"
+          },
+          "level_spring": {
+            "title": "Level Spring",
+            "type": "integer"
+          },
+          "connect": {
+            "title": "Connect",
+            "type": "string"
+          },
+          "add_time": {
+            "title": "Add Time",
+            "type": "string"
+          },
+          "coord_id": {
+            "title": "Coord Id",
+            "type": "integer"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
