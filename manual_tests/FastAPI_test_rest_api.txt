@@ -1,4 +1,4 @@
-You can "POST" these JSON code by http://localhost:8000/docs
+You can "POST" these JSON code by http://localhost:8000/docs or by http://77.37.152.243:8000/docs
 
 *** IMPORTANT ***
 You need to apply "sql_required_commands.sql"!
