@@ -1,24 +1,182 @@
-
 # Test REST API for sports data
 
-Project assignment for implementing a REST API for working with data from a sports application.
+This project is a REST API designed to work with data from a sports application. This API implements methods for adding, retrieving, and updating information about mountain passes. The API is built using FastAPI and supports CORS.
 
-
-
-
-## Installation
-
-1. In the *"main.env"* file, set the parameters for connecting to your database.
-2. Create tables in the database, presented in the *"Database"* folder.
-3. Launch the program using the command:
-
-```bash
-  uvicorn main:app --reload
+### Installation
+To install and run the project, perform the following commands:
+```python
+git clone https://github.com/NShilko/test_rest_api_sport.git
+cd test_rest_api_sport
+pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port 8000
 ```
-    
-    
-## Running Tests
+##### Local Tests
+1. For testing the functionality, be sure to add the values to the database, presented in the "sql_required_commands.sql" file.
+2. Read the "Fastapi_test_rest_api.txt" file or you can use tests ('pytest test_app.py')
 
-1. For testing the functionality, be sure to add the values to the database, presented in the *"sql_required_commands.sql"* file. 
-2. Read the *"Fastapi_test_rest_api.txt"* file.
+### Example
+- You can try our code by http://77.37.152.243:8000/docs
+- Or you can send POST/GET/PATCH requests on http://77.37.152.243:8000/submitData/
 
+
+### Endpoints
+
+- **POST /submitData:** Add information about a mountain pass
+- **GET /submitData/{id}:** Get information about a mountain pass by its identifier
+- **GET /submitData/:** Get all user's mountain passes by their email address
+- **PATCH /submitData/{id}:** Update information about a mountain pass by its identifier
+
+----
+
+##### [ POST /submitData ]
+
+Adds information about a mountain pass.
+
+*Example request:*
+```json
+{
+  "user_email": "user1@test.ru",
+  "beauty_title": "Большой перевал",
+  "title": "Перевал",
+  "other_titles": "",
+  "level_summer": 1,
+  "level_autumn": 2,
+  "level_winter": 5,
+  "level_spring": 4,
+  "connect": "connect",
+  "add_time": "12.12.2022",
+  "coord_id": 2
+}
+```
+*Example response:*
+```json
+{
+  "status": "success",
+  "message": "Информация о превале успешно добавлена!",
+  "data": {
+    "user_email": "user1@test.ru",
+    "beauty_title": "Большой перевал",
+    "title": "Перевал",
+    "other_titles": "",
+    "level_summer": 1,
+    "level_autumn": 2,
+    "level_winter": 5,
+    "level_spring": 4,
+    "connect": "connect",
+    "add_time": "12.12.2022",
+    "coord_id": 1
+  }
+}
+```
+----
+
+#### [ GET /submitData/{id} ]
+Retrieves information about a mountain pass by its identifier.
+
+*Example request:* **/submitData/1**
+
+*Example response:*
+```json
+{
+  "id": 1,
+  "user_email": "user1@test.ru",
+  "date_added": "2023-03-19T06:08:51.832250",
+  "beauty_title": "Большой перевал22",
+  "title": "Перевал",
+  "other_titles": "",
+  "level_summer": 1,
+  "level_autumn": 9,
+  "level_winter": 5,
+  "level_spring": 4,
+  "connect": "connect",
+  "add_time": "12.12.2022",
+  "status": "new",
+  "coord_id": 1
+}
+```
+----
+
+#### [ GET /submitData/ ]
+Retrieves all mountain passes of a user by their email address.
+
+Request parameters:
+
+- **user_email** (*string*): User's email address
+
+*Example request:* **/submitData/?user_email=user1@test.ru**
+
+*Example response:*
+```json
+[
+  {
+    "id": 1,
+    "user_email": "user1@test.ru",
+    "date_added": "2023-03-19T06:08:51.832250",
+    "beauty_title": "Большой перевал22",
+    "title": "Перевал",
+    "other_titles": "",
+    "level_summer": 1,
+    "level_autumn": 9,
+    "level_winter": 5,
+    "level_spring": 4,
+    "connect": "connect",
+    "add_time": "12.12.2022",
+    "status": "new",
+    "coord_id": 1
+  },
+  {
+    "id": 4,
+    "user_email": "user1@test.ru",
+    "date_added": "2023-03-20T12:12:07.015459",
+    "beauty_title": "Большой перевал",
+    "title": "Перевал",
+    "other_titles": "",
+    "level_summer": 1,
+    "level_autumn": 2,
+    "level_winter": 5,
+    "level_spring": 4,
+    "connect": "connect",
+    "add_time": "12.12.2022",
+    "status": "new",
+    "coord_id": 1
+  }
+]
+```
+----
+
+#### [ PATCH /submitData/{id} ]
+
+Updates information about a mountain pass by its identifier. Some fields (full name, email address, and phone number) cannot be modified.
+
+*Example request*: **/submitData/1**
+
+*Request body:*
+```json
+{
+    "title": "Перевал",
+    "other_titles": "",
+    "level_summer": 1,
+    "level_autumn": 2
+}
+```
+*Example response:*
+```json
+{
+  "state": 1,
+  "message": "Запись успешно отредактирована"
+}
+```
+
+In case the update fails, an error message will be returned with a corresponding description of the problem.
+
+----
+
+## API Documentation
+
+Automatically generated documentation for our API is available in the form of an interactive Swagger UI and JSON schema.
+
+- **Swagger UI**: To access the interactive Swagger UI documentation, visit the link http://127.0.0.1:8000/docs (assuming you are using localhost and port 8000) or http://77.37.152.243:8000/docs. Here you can view and test all of your API's endpoints.
+
+- **JSON schema**: If you want to get the JSON schema generated by FastAPI, visit the link http://127.0.0.1:8000/openapi.json (assuming you are using localhost and port 8000) or http://77.37.152.243:8000/openapi.json. You can use this file for generating client application code, documentation, or for other purposes.
+
+- **JSON schema (local)**: If you want to obtain a local JSON schema, you can find it in the file: "database/openapi_swagger.json"
