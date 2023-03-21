@@ -12,4 +12,4 @@ class Pereval(BaseModel):
     level_spring: Optional[int]
     connect: Optional[str]
     add_time: Optional[str]
-    coord_id: Optional[int]
+    coord_id: int
