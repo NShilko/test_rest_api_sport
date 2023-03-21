@@ -154,11 +154,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "title": "Response Get User Perevals Submitdata  Get",
-                  "type": "array",
-                  "items": {}
-                }
+                "schema": {}
               }
             }
           },
@@ -194,7 +190,8 @@
       "Pereval": {
         "title": "Pereval",
         "required": [
-          "user_email"
+          "user_email",
+          "coord_id"
         ],
         "type": "object",
         "properties": {
