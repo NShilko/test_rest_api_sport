@@ -36,7 +36,7 @@ async def submit_data(pereval: Pereval) -> dict:
         return response
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 # Get Pereval info by pereval_id
@@ -44,7 +44,7 @@ async def submit_data(pereval: Pereval) -> dict:
 async def get_pereval(id: int) -> dict:
     pereval = db.get_pereval_by_id(id)
     if pereval is None:
-        return {"Ошибка": f"Превелов с id [ {id} ] - не найдено"}
+        return {"state": 0, 'message': f"Превелов с id [ {id} ] - не найдено"}
     return pereval
 
 
@@ -66,7 +66,6 @@ async def update_pereval(id: int, data: dict) -> dict:
         return {"state": 0, "message": f"Перевал с id [ {id} ] - не найден"}
 
     # check that post is not new
-
     elif pereval['status'] != "new":
         return {"state": 0, "message": "Данная запись уже прошла модерацию, ее нельзя изменить"}
 

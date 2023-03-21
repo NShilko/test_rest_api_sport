@@ -46,20 +46,27 @@ class MyDatabase:
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         '''
         with self.conn.cursor() as cur:
-            cur.execute(query, (
-                data['user_email'],
-                data['beauty_title'],
-                data['title'],
-                data['other_titles'],
-                data['level_summer'],
-                data['level_autumn'],
-                data['level_winter'],
-                data['level_spring'],
-                data['connect'],
-                data['add_time'],
-                data['coord_id'],
-            ))
-            self.conn.commit()
+            try:
+                cur.execute(query, (
+                    data['user_email'],
+                    data['beauty_title'],
+                    data['title'],
+                    data['other_titles'],
+                    data['level_summer'],
+                    data['level_autumn'],
+                    data['level_winter'],
+                    data['level_spring'],
+                    data['connect'],
+                    data['add_time'],
+                    data['coord_id'],
+                ))
+                result = cur.fetchone()
+
+            except Exception as e:
+                self.conn.rollback()
+                return HTTPException(status_code=404, detail=f"Не удалось обновить запись: {e}")
+            else:
+                self.conn.commit()
 
     def get_pereval_by_id(self, id: int):
         with self.conn.cursor() as cur:
