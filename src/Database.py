@@ -63,7 +63,8 @@ class MyDatabase:
 
             except Exception as e:
                 self.conn.rollback()
-                return HTTPException(status_code=404, detail=f"Не удалось обновить запись: {e}")
+                return {'state': 0, "message": "Данные обновить не удалось!", "error": str(e)}
+
             self.conn.commit()
             return {'state': 1, "message": "Данные успешно добавлены в базу данных"}
 

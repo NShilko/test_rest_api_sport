@@ -14,9 +14,15 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 1. For testing the functionality, be sure to add the values to the database, presented in the "sql_required_commands.sql" file.
 2. Read the "Fastapi_test_rest_api.txt" file or you can use tests ('pytest test_app.py')
 
+----
+
 ### Example
 - You can try our code by http://77.37.152.243:8000/docs
 - Or you can send POST/GET/PATCH requests on http://77.37.152.243:8000/submitData/
+
+##### *Default data:*
+- **user emails**: user1@test.ru, user2@test.ru
+- **coord_id**: 1
 
 
 ### Endpoints

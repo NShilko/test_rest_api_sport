@@ -26,10 +26,9 @@ app.add_middleware(
 async def submit_data(pereval: Pereval) -> dict:
     try:
         data = pereval.dict()
-        db.add_pereval(data)
+        result = db.add_pereval(data)
         response = {
-            'status': 'success',
-            'message': 'Информация о превале успешно добавлена!',
+            'status': result,
             'data': data,
         }
 
@@ -63,7 +62,7 @@ async def update_pereval(id: int, data: dict) -> dict:
     # check that pereval with this id exists
     pereval = db.get_pereval_by_id(id)
     if not pereval:
-        return {"state": 0, "message": f"Перевал с id [ {id} ] - не найден"}
+        return {"state": 0, "message": f"Перевал(ов) с id [ {id} ] - не найден"}
 
     # check that post is not new
     elif pereval['status'] != "new":

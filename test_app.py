@@ -22,7 +22,7 @@ def test_submit_data():
     }
     response = client.post("/submitData", json=data)
     assert response.status_code == status.HTTP_200_OK
-    assert response.json()["status"] == "success"
+    assert response.json()["status"]["state"] == 1
 
 
 # Bad example of func submit data - no coord_id data

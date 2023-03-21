@@ -3,7 +3,7 @@
   "info": {
     "title": "Test REST API for sports data",
     "description": "Project assignment for implementing a REST API for working with data from a sports application",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "paths": {
     "/submitData": {
